@@ -25,14 +25,10 @@ public class MyShapes   {
         }
     }
     static void circlePlotPoint(int xCenter , int yCenter , int x, int y , GL2 gl){
-        putpixel ( xCenter + x, yCenter + y , gl );
-        putpixel ( xCenter - x, yCenter + y , gl );
-        putpixel ( xCenter + x, yCenter - y , gl );
-        putpixel ( xCenter - x, yCenter - y , gl);
-        putpixel ( xCenter + y, yCenter + x , gl);
-        putpixel ( xCenter - y, yCenter + x , gl);
-        putpixel ( xCenter + y, yCenter - x , gl);
-        putpixel ( xCenter - y, yCenter - x , gl);
+        brezenhamLine(xCenter + x, yCenter + y , xCenter - x, yCenter - y , gl);
+        brezenhamLine(xCenter - x, yCenter + y , xCenter + x, yCenter - y , gl);
+        brezenhamLine(xCenter + y, yCenter + x , xCenter - y, yCenter - x , gl);
+        brezenhamLine(xCenter - y, yCenter + x , xCenter + y, yCenter - x , gl);
     }
     static void putpixel(int x, int y, GL2 gl){
         gl.glBegin(GL_POINTS);
@@ -41,42 +37,89 @@ public class MyShapes   {
     }
 
 
-    static void brezenhamLine (int x1 , int y1 , int x2, int y2, GL2 gl){
-        int dx = Math.abs(x1 - x2);
-        int dy = Math.abs(y1 - y2);
-        int p = 2 * dy - dx;
-        int twoDy = 2*dy;
-        int twoDyDx = 2 * (dy - dx);
+    static void brezenhamLine (int xa , int ya , int xb, int yb, GL2 gl){
         int x;
         int y;
+
+        boolean isAcsending;
+
+        int dx = Math.abs(xa - xb);
+        int dy = Math.abs(ya - yb);
+
         int xEnd;
 
-        if(x1 > x2) {
-            x = x2;
-            y = y2;
-            xEnd = x1;
-        }
-        else {
-            x = x1;
-            y = y1;
-            xEnd = x2;
-        }
-        gl.glBegin(GL_POINTS);
-        gl.glVertex2f(x/400f , y/400f );
-        gl.glEnd();
-        while (x < xEnd){
-            x = x+1;
-            if (p < 0) {
-                p = p +twoDy ;
+        if (dx >= dy) {
+            int p = 2 * dy - dx;
+            int twoDy = 2 * dy;
+            int twoDyDx = 2 * (dy - dx);
+
+            if (xa > xb) {
+                x = xb;
+                y = yb;
+                xEnd = xa;
+                isAcsending = yb < ya;
+            } else {
+
+                x = xa;
+                y = ya;
+                xEnd = xb;
+                isAcsending = yb > ya;
             }
-            else {
-                y = y +1;
-                p = p +twoDyDx;
+
+            putpixel(x, y, gl);
+
+            while (x < xEnd) {
+                x = x + 1;
+                if (p < 0) {
+                    p = p + twoDy;
+                } else {
+                    if (isAcsending)
+                        y = y + 1;
+                    else
+                        y--;
+                    p = p + twoDyDx;
+                }
+                putpixel(x, y, gl);
+
             }
-            gl.glBegin(GL_POINTS);
-            gl.glVertex2f(x/400f , y/400f );
-            gl.glEnd();
+
+        } else {
+            int twoDxDy = 2 * (dx - dy);
+            int twoDx = 2 * dx;
+            int p = 2 * dx - dy;
+            int yEnd;
+
+            if (ya > yb) {
+                x = xb;
+                y = yb;
+                yEnd = ya;
+                isAcsending = xb < xa;
+            } else {
+
+                x = xa;
+                y = ya;
+                yEnd = yb;
+                isAcsending = xb > xa;
+            }
+
+            putpixel(x, y, gl);
+
+            while (y < yEnd) {
+                y = y + 1;
+                if (p < 0) {
+                    p = p + twoDx;
+                } else {
+                    if (isAcsending)
+                        x = x + 1;
+                    else
+                        x--;
+                    p = p + twoDxDy;
+                }
+                putpixel(x, y, gl);
+
+            }
         }
+
     }
 
 
