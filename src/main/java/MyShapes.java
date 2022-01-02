@@ -1,7 +1,7 @@
 import com.jogamp.opengl.*;
-import com.jogamp.opengl.awt.GLCanvas;
 
-import javax.swing.*;
+import java.awt.*;
+import java.util.HashMap;
 
 import static com.jogamp.opengl.GL.GL_POINTS;
 
@@ -30,10 +30,16 @@ public class MyShapes   {
         brezenhamLine(xCenter + y, yCenter + x , xCenter - y, yCenter - x , gl);
         brezenhamLine(xCenter - y, yCenter + x , xCenter + y, yCenter - x , gl);
     }
-    static void putpixel(int x, int y, GL2 gl){
+    static void putPixel(int x, int y, GL2 gl){
         gl.glBegin(GL_POINTS);
-        gl.glVertex2f(x/1600f , y/900f );
+        gl.glVertex2i(x , y);
         gl.glEnd();
+    }
+
+    static void putPixel( HashMap<Key,Color> pixelMap, GL2 gl){
+        for (Key key : pixelMap.keySet()) {
+            putPixel( key.getX(), key.getY(),gl);
+        }
     }
 
 
@@ -66,7 +72,7 @@ public class MyShapes   {
                 isAcsending = yb > ya;
             }
 
-            putpixel(x, y, gl);
+            putPixel(x, y, gl);
 
             while (x < xEnd) {
                 x = x + 1;
@@ -79,7 +85,7 @@ public class MyShapes   {
                         y--;
                     p = p + twoDyDx;
                 }
-                putpixel(x, y, gl);
+                putPixel(x, y, gl);
 
             }
 
@@ -102,7 +108,7 @@ public class MyShapes   {
                 isAcsending = xb > xa;
             }
 
-            putpixel(x, y, gl);
+            putPixel(x, y, gl);
 
             while (y < yEnd) {
                 y = y + 1;
@@ -115,7 +121,7 @@ public class MyShapes   {
                         x--;
                     p = p + twoDxDy;
                 }
-                putpixel(x, y, gl);
+                putPixel(x, y, gl);
 
             }
         }
