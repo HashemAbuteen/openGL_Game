@@ -114,49 +114,42 @@ public class GlCanvas implements GLEventListener {
                 int index = getIndex( j , i);
                 int x1,x2,y1,y2;
                 if(mazeAsString.charAt(index ) == '0'){
-                    gl.glBegin(GL2.GL_LINES);
                     y1 = 855 - i*90 ;
                     y2 = 855 - i*90;
                     x1 = 45+ j*90;
                     x2 = 45 + (j+1)*90;
-                    gl.glVertex2i(x1, y1);
-                    gl.glVertex2i(x2, y2);
-                    gl.glEnd();
+                    MyShapes.line(x1,y1,x2,y2,Color.WHITE,pixelMap);
                 }
                 if(mazeAsString.charAt(index + 1) == '0'){
-                    gl.glBegin(GL2.GL_LINES);
                     y1 = 855 - (i+1)*90 ;
                     y2 = 855 - i*90;
                     x1 = 45 + (j+1)*90;
                     x2 = 45 + (j+1)*90;
-                    gl.glVertex2i(x1, y1);
-                    gl.glVertex2i(x2, y2);
-                    gl.glEnd();
+                    MyShapes.line(x1,y1,x2,y2,Color.WHITE,pixelMap);
+
                 }
                 if(mazeAsString.charAt(index + 2) == '0'){
-                    gl.glBegin(GL2.GL_LINES);
                     y1 = 855 - (i+1)*90 ;
                     y2 = 855 - (i+1)*90;
                     x1 = 45 + j*90;
                     x2 = 45 + (j+1)*90;
-                    gl.glVertex2i(x1, y1);
-                    gl.glVertex2i(x2, y2);
-                    gl.glEnd();
+                    MyShapes.line(x1,y1,x2,y2,Color.WHITE,pixelMap);
+
                 }
                 if(mazeAsString.charAt(index + 3) == '0'){
-                    gl.glBegin(GL2.GL_LINES);
                     y1 = 855 - (i)*90 ;
                     y2 = 855 - (i+1)*90;
                     x1 = 45 + (j)*90;
                     x2 = 45 + (j)*90;
-                    gl.glVertex2i(x1, y1);
-                    gl.glVertex2i(x2, y2);
-                    gl.glEnd();
+                    MyShapes.line(x1,y1,x2,y2,Color.WHITE,pixelMap);
+
                 }
             }
         }
 
-        MyShapes.circleMidPoint(  posX,posY , radius,gl);
+        MyShapes.circleMidPoint(  posX,posY , radius,Color.WHITE,pixelMap);
+        MyShapes.draw(pixelMap,gl);
+
         gl.glPopMatrix();
 
 
