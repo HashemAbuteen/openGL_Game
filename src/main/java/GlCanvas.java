@@ -43,6 +43,7 @@ public class GlCanvas implements GLEventListener {
     @Override
     public void display(GLAutoDrawable glAutoDrawable) {
         final GL2 gl = glAutoDrawable.getGL().getGL2();
+
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl.glEnable(GL2.GL_TEXTURE_2D);
         gl.glBindTexture(GL2.GL_TEXTURE_2D, textureId);
@@ -88,13 +89,13 @@ public class GlCanvas implements GLEventListener {
         gl.glTexCoord2f(1f, 0f);
         gl.glVertex2f(1f, 0);
         gl.glEnd();
-        gl.glDepthMask(true);
         gl.glPopMatrix();
 
 
     }
 
     private void game(GL2 gl) {
+        gl.glDisable(GL2.GL_TEXTURE_2D);
         Scanner scanner;
         try {
             File maze = new File("src/main/resources/maze1.txt");
@@ -105,7 +106,6 @@ public class GlCanvas implements GLEventListener {
             e.printStackTrace();
         }
 
-        gl.glColor3f(1f,1f,1f);
 
         for(int i=0;i<9 ; i++){
             for(int j = 0 ; j < 16 ; j++){
