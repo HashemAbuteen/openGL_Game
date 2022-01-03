@@ -11,7 +11,7 @@ public class MyKeyListener extends KeyAdapter {
         if(keyCode == 10){
             GlCanvas.controller = 1;
         }
-        if(GlCanvas.controller == 1) {
+        if(GlCanvas.controller == 1 && !GlCanvas.won) {
             if(keyCode == 38) //up
             {
                 GlCanvas.moveUp();
@@ -36,6 +36,11 @@ public class MyKeyListener extends KeyAdapter {
             {
                 GlCanvas.tracking = !GlCanvas.tracking;
             }
+            if(keyCode == 82) //R
+            {
+                GlCanvas.reset();
+            }
+
 
         }
         if(keyCode == 72) //H

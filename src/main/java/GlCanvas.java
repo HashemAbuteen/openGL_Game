@@ -27,6 +27,7 @@ public class GlCanvas implements GLEventListener {
     public static int controller = 0;
     public static boolean lights = true;
     public static boolean tracking = false;
+    public static boolean won = false;
     public static int posX = 720;
     public static int posY = 810;
     public static int radius = 10;
@@ -34,7 +35,7 @@ public class GlCanvas implements GLEventListener {
 
     HashMap<Key , Color> pixelMap;
     HashMap<Key , Color> exitLight;
-    HashMap<Key , Color> track;
+    static HashMap<Key , Color> track;
 
 
 
@@ -251,16 +252,19 @@ public class GlCanvas implements GLEventListener {
 
         int index = getIndex(cellX , cellY);
         int newPosY = posY - 10;
+
+        if(newPosY < 45){
+            JOptionPane.showMessageDialog(null,"Congrats!! You solved the maze\nchoose ok to see" +
+                    "the maze and your path ");
+            lights = false;
+            tracking = true;
+            won = true;
+            return;
+        }
         if(mazeAsString.charAt(index+2) == '1'){
             posY = newPosY;
             //check if won
-            if(newPosY < 45){
-                JOptionPane.showMessageDialog(null,"Congrats!! You solved the maze\nchoose ok to see" +
-                        "the maze and your path ");
-                lights = false;
-                tracking = true;
-                return;
-            }
+
         }
         else {
             if((855-newPosY+10)/90 > cellY){
@@ -283,6 +287,17 @@ public class GlCanvas implements GLEventListener {
     }
 
     private void win(GL2 gl) {
+    }
+
+    static void reset (){
+        lights = true;
+        tracking = false;
+        won = false;
+        posX = 720;
+        posY = 810;
+        radius = 10;
+
+        track = new HashMap<>();
     }
 
 
