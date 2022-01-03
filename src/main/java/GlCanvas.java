@@ -28,11 +28,66 @@ public class GlCanvas implements GLEventListener {
     public static int radius = 10;
     static String mazeAsString = "";
 
+    HashMap<Key , Color> pixelMap;
+    HashMap<Key , Color> exitLight;
+
 
 
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
+
+        Scanner scanner;
+        try {
+            File maze = new File("src/main/resources/maze1.txt");
+            scanner = new Scanner(maze);
+            mazeAsString = scanner.next();
+        } catch (FileNotFoundException e) {
+            System.out.println("Maze file do not exist");
+            e.printStackTrace();
+        }
+
+        pixelMap = new HashMap<>();
+
+        for(int i=0;i<9 ; i++){
+            for(int j = 0 ; j < 16 ; j++){
+                //up
+                int index = getIndex( j , i);
+                int x1,x2,y1,y2;
+                if(mazeAsString.charAt(index ) == '0'){
+                    y1 = 855 - i*90 ;
+                    y2 = 855 - i*90;
+                    x1 = 45+ j*90;
+                    x2 = 45 + (j+1)*90;
+                    MyShapes.line(x1,y1,x2,y2,Color.WHITE,pixelMap);
+                }
+                if(mazeAsString.charAt(index + 1) == '0'){
+                    y1 = 855 - (i+1)*90 ;
+                    y2 = 855 - i*90;
+                    x1 = 45 + (j+1)*90;
+                    x2 = 45 + (j+1)*90;
+                    MyShapes.line(x1,y1,x2,y2,Color.WHITE,pixelMap);
+
+                }
+                if(mazeAsString.charAt(index + 2) == '0'){
+                    y1 = 855 - (i+1)*90 ;
+                    y2 = 855 - (i+1)*90;
+                    x1 = 45 + j*90;
+                    x2 = 45 + (j+1)*90;
+                    MyShapes.line(x1,y1,x2,y2,Color.WHITE,pixelMap);
+
+                }
+                if(mazeAsString.charAt(index + 3) == '0'){
+                    y1 = 855 - (i)*90 ;
+                    y2 = 855 - (i+1)*90;
+                    x1 = 45 + (j)*90;
+                    x2 = 45 + (j)*90;
+                    MyShapes.line(x1,y1,x2,y2,Color.WHITE,pixelMap);
+
+                }
+            }
+        }
+        exitLight = Lighting.circularLight(810,1,50*radius,pixelMap);
 
     }
 
@@ -96,59 +151,16 @@ public class GlCanvas implements GLEventListener {
 
     private void game(GL2 gl) {
         gl.glDisable(GL2.GL_TEXTURE_2D);
-        Scanner scanner;
-        try {
-            File maze = new File("src/main/resources/maze1.txt");
-            scanner = new Scanner(maze);
-            mazeAsString = scanner.next();
-        } catch (FileNotFoundException e) {
-            System.out.println("Maze file do not exist");
-            e.printStackTrace();
-        }
 
-        HashMap<Key , Color> pixelMap = new HashMap<>();
 
-        for(int i=0;i<9 ; i++){
-            for(int j = 0 ; j < 16 ; j++){
-                //up
-                int index = getIndex( j , i);
-                int x1,x2,y1,y2;
-                if(mazeAsString.charAt(index ) == '0'){
-                    y1 = 855 - i*90 ;
-                    y2 = 855 - i*90;
-                    x1 = 45+ j*90;
-                    x2 = 45 + (j+1)*90;
-                    MyShapes.line(x1,y1,x2,y2,Color.WHITE,pixelMap);
-                }
-                if(mazeAsString.charAt(index + 1) == '0'){
-                    y1 = 855 - (i+1)*90 ;
-                    y2 = 855 - i*90;
-                    x1 = 45 + (j+1)*90;
-                    x2 = 45 + (j+1)*90;
-                    MyShapes.line(x1,y1,x2,y2,Color.WHITE,pixelMap);
 
-                }
-                if(mazeAsString.charAt(index + 2) == '0'){
-                    y1 = 855 - (i+1)*90 ;
-                    y2 = 855 - (i+1)*90;
-                    x1 = 45 + j*90;
-                    x2 = 45 + (j+1)*90;
-                    MyShapes.line(x1,y1,x2,y2,Color.WHITE,pixelMap);
 
-                }
-                if(mazeAsString.charAt(index + 3) == '0'){
-                    y1 = 855 - (i)*90 ;
-                    y2 = 855 - (i+1)*90;
-                    x1 = 45 + (j)*90;
-                    x2 = 45 + (j)*90;
-                    MyShapes.line(x1,y1,x2,y2,Color.WHITE,pixelMap);
 
-                }
-            }
-        }
 
-        MyShapes.circleMidPoint(  posX,posY , radius,Color.WHITE,pixelMap);
-        MyShapes.draw(pixelMap,gl);
+        HashMap<Key , Color> renderedPixelMap = Lighting.circularLight(posX,posY,50*radius,pixelMap);
+        MyShapes.circleMidPoint(  posX,posY , radius,Color.WHITE,renderedPixelMap);
+        MyShapes.draw(exitLight,gl);
+        MyShapes.draw(renderedPixelMap,gl);
 
         gl.glPopMatrix();
 
@@ -192,7 +204,7 @@ public class GlCanvas implements GLEventListener {
             posX = newPosX;
         }
         else {
-            if((newPosX-45-10)/90 < cellX ){
+            if((newPosX-45-10)/90.0 < cellX ){
                 posX = 45+10+cellX*90;
                 return;
             }

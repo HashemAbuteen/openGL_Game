@@ -20,7 +20,7 @@ public class Main {
         gc.setSize(1600, 900);
 
         final FPSAnimator animator
-                = new FPSAnimator(gc, 300,true );
+                = new FPSAnimator(gc, 60,true );
         animator.start();
 
 
