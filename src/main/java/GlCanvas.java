@@ -25,6 +25,7 @@ public class GlCanvas implements GLEventListener {
 
     public static int controller = 0;
     public static boolean lights = true;
+    public static boolean tracking = false;
     public static int posX = 720;
     public static int posY = 810;
     public static int radius = 10;
@@ -32,6 +33,7 @@ public class GlCanvas implements GLEventListener {
 
     HashMap<Key , Color> pixelMap;
     HashMap<Key , Color> exitLight;
+    HashMap<Key , Color> track;
 
 
 
@@ -90,6 +92,7 @@ public class GlCanvas implements GLEventListener {
             }
         }
         exitLight = Lighting.circularLight(810,1,50*radius,pixelMap);
+        track = new HashMap<>();
 
     }
 
@@ -164,6 +167,10 @@ public class GlCanvas implements GLEventListener {
             HashMap<Key, Color> renderedPixelMap = (HashMap<Key, Color>) pixelMap.clone();
             MyShapes.circleMidPoint(posX, posY, radius, Color.WHITE, renderedPixelMap);
             MyShapes.draw(renderedPixelMap,gl);
+        }
+        MyShapes.circleMidPoint(posX, posY, radius/2, Color.GREEN, track);
+        if(tracking){
+            MyShapes.draw(track,gl);
         }
 
         gl.glPopMatrix();

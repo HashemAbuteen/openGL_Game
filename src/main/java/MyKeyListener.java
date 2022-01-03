@@ -31,6 +31,10 @@ public class MyKeyListener extends KeyAdapter {
             {
                 GlCanvas.lights = !GlCanvas.lights;
             }
+            if(keyCode == 84) //T
+            {
+                GlCanvas.tracking = !GlCanvas.tracking;
+            }
         }
     }
 }
