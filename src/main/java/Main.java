@@ -4,6 +4,9 @@ import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.FPSAnimator;
 
 import javax.swing.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class Main {
 
@@ -29,5 +32,15 @@ public class Main {
         frame.setSize(frame.getContentPane().getPreferredSize());
         frame.setVisible(true);
 
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner( new File("src/main/resources/readme.txt") );
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        String help = scanner.useDelimiter("\\A").next();
+        scanner.close();
+
+        JOptionPane.showMessageDialog(null,help);
     }
 }
