@@ -15,6 +15,7 @@ import java.util.Scanner;
 
 public class GlCanvas implements GLEventListener {
 
+
     private static GraphicsEnvironment graphicsEnvironment;
     public static  DisplayMode dm,dm_old;
     private static Dimension xGraphic;
@@ -23,6 +24,7 @@ public class GlCanvas implements GLEventListener {
     private int textureId;
 
     public static int controller = 0;
+    public static boolean lights = true;
     public static int posX = 720;
     public static int posY = 810;
     public static int radius = 10;
@@ -152,15 +154,17 @@ public class GlCanvas implements GLEventListener {
     private void game(GL2 gl) {
         gl.glDisable(GL2.GL_TEXTURE_2D);
 
-
-
-
-
-
-        HashMap<Key , Color> renderedPixelMap = Lighting.circularLight(posX,posY,50*radius,pixelMap);
-        MyShapes.circleMidPoint(  posX,posY , radius,Color.WHITE,renderedPixelMap);
-        MyShapes.draw(exitLight,gl);
-        MyShapes.draw(renderedPixelMap,gl);
+        if(lights) {
+            HashMap<Key, Color> renderedPixelMap = Lighting.circularLight(posX, posY, 50 * radius, pixelMap);
+            MyShapes.circleMidPoint(posX, posY, radius, Color.WHITE, renderedPixelMap);
+            MyShapes.draw(exitLight, gl);
+            MyShapes.draw(renderedPixelMap, gl);
+        }
+        else{
+            HashMap<Key, Color> renderedPixelMap = (HashMap<Key, Color>) pixelMap.clone();
+            MyShapes.circleMidPoint(posX, posY, radius, Color.WHITE, renderedPixelMap);
+            MyShapes.draw(renderedPixelMap,gl);
+        }
 
         gl.glPopMatrix();
 

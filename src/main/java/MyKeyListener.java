@@ -27,6 +27,10 @@ public class MyKeyListener extends KeyAdapter {
             {
                 GlCanvas.moveDown();
             }
+            if(keyCode == 86) //V
+            {
+                GlCanvas.lights = !GlCanvas.lights;
+            }
         }
     }
 }
