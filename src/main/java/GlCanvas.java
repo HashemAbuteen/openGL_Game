@@ -6,6 +6,7 @@ import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -254,7 +255,10 @@ public class GlCanvas implements GLEventListener {
             posY = newPosY;
             //check if won
             if(newPosY < 45){
-                controller = 2;
+                JOptionPane.showMessageDialog(null,"Congrats!! You solved the maze\nchoose ok to see" +
+                        "the maze and your path ");
+                lights = false;
+                tracking = true;
                 return;
             }
         }
