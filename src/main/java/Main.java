@@ -11,6 +11,8 @@ import java.util.Scanner;
 public class Main {
 
     public static int controller;
+    public static String help;
+
     public static void main(String[] args) {
         controller = 0 ;
         final GLProfile gp = GLProfile.get(GLProfile.GL2);
@@ -38,7 +40,7 @@ public class Main {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        String help = scanner.useDelimiter("\\A").next();
+        help = scanner.useDelimiter("\\A").next();
         scanner.close();
 
         JOptionPane.showMessageDialog(null,help);

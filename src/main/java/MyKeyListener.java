@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -35,6 +36,11 @@ public class MyKeyListener extends KeyAdapter {
             {
                 GlCanvas.tracking = !GlCanvas.tracking;
             }
+
+        }
+        if(keyCode == 72) //H
+        {
+            JOptionPane.showMessageDialog(null,Main.help);
         }
     }
 }
